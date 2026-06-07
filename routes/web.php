@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,4 +28,19 @@ route::post('/hema', function () {
 
     $name = request('name'); 
     return view('hema', compact('name'));
+});
+
+route::get('/tasks', function () {
+    
+    return view('tasks');
+});
+
+route::post('create', function () {
+    $TASK_name = $_POST['name'];
+    DB::table('tasks')->insert([
+        'name' => $TASK_name,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+    return redirect('/tasks');
 });
