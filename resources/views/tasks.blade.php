@@ -32,6 +32,30 @@
     <div class="container mt-4">
         <div class="offset-md-2 col-md-8">
             <div class="card">
+              @if (isset ($task))
+                <div class="card-header">
+                    Update Task
+                </div>
+                <div class="card-body">
+                    <!-- Update Task Form -->
+                    <form action="{{url('update/'.$task->id)}}" method="POST">
+                      @csrf
+                        <!-- Task Name -->
+                        <div class="mb-3">
+                            <label for="task-name" class="form-label">Task</label>
+                            <input type="text" name="name" id="name" class="form-control" value="{{ $task->name }}">
+                        </div>
+
+                        <!-- Update Task Button -->
+                        <div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-plus me-2"></i>Update Task
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+              @else
                 <div class="card-header">
                     New Task
                 </div>
@@ -54,7 +78,7 @@
                     </form>
                 </div>
             </div>
-
+              @endif
             <!-- Current Tasks -->
             <div class="card mt-4">
                 <div class="card-header">
@@ -69,36 +93,30 @@
                             </tr>
                         </thead>
                         <tbody>
+                          @foreach ($tasks as $task)
+                            
+                          
+                            
+                          
                             <tr>
-                                <td>Task 1</td>
+                                <td>{{ $task -> name }}</td>
                                 <td>
-                                    <form action="#" method="POST" class="d-inline">
+                                    <form action="/delete/{{$task -> id }}" method="POST" class="d-inline">
+                                      @csrf
                                         <button type="submit" class="btn btn-danger">
                                             <i class="fa fa-trash me-2"></i>Delete
                                         </button>
                                     </form>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Task 2</td>
-                                <td>
-                                    <form action="#" method="POST" class="d-inline">
-                                        <button type="submit" class="btn btn-danger">
-                                            <i class="fa fa-trash me-2"></i>Delete
+                                    <form action="/edit/{{$task -> id }}" method="POST" class="d-inline">
+                                      @csrf
+                                        <button type="submit" class="btn btn-warning">
+                                            <i class="fa fa-edit me-2"></i>Edit
                                         </button>
                                     </form>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>Task 3</td>
-                                <td>
-                                    <form action="#" method="POST" class="d-inline">
-                                        <button type="submit" class="btn btn-danger">
-                                            <i class="fa fa-trash me-2"></i>Delete
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                            @endforeach
+                          
                         </tbody>
                     </table>
                 </div>
