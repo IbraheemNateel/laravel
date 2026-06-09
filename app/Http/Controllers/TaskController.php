@@ -12,6 +12,7 @@ class TaskController extends Controller
     {
         $tasks = Task::all();
 
+
         return view('tasks', compact('tasks'));
     }
 
@@ -36,8 +37,8 @@ class TaskController extends Controller
     }
     public function edit($id)
     {
-        $task = DB::table('tasks')->where('id' , $id ) -> first();
-        $tasks = DB::table('tasks')->get();
+        $task = Task::find($id);
+        $tasks = Task::all();
         return view('tasks', compact('task', 'tasks'));
     }
     public function update(Request $request, $id)
@@ -46,10 +47,9 @@ class TaskController extends Controller
               'name' => 'required|string|max:10',
           ]);
         $TASK_name = $request->input('name');
-        DB::table('tasks')->where('id' , $id ) -> update([
-            'name' => $TASK_name,
-            'updated_at' => now(),
-        ]);
+        $task = Task::find($id);
+        $task->name = $TASK_name;
+        $task->save();
         return redirect('/tasks');
     }
 }
