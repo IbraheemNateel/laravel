@@ -14,6 +14,12 @@ class UsersController extends Controller
     }
     public function create(Request $request)
     {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:8',
+        ]);
+
         $USER_name = $request->input('name');
         $USER_email = $request->input('email');
         $USER_password = $request->input('password');
@@ -39,9 +45,19 @@ class UsersController extends Controller
     }
     public function update(Request $request, $id)
     {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,'.$id,
+            'password' => 'required|string|min:8',
+        ]);
         $USER_name = $request->input('name');
         $USER_email = $request->input('email');
         $USER_password = $request->input('password');
+        if ($request->password) {
+    $data['password'] = bcrypt($request->password);
+}
+
+DB::table('users')->where('id', $id)->update($data);
         DB::table('users')->where('id' , $id ) -> update([
             'name' => $USER_name, 
             'email' => $USER_email,

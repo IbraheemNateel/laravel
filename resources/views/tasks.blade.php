@@ -1,5 +1,5 @@
 
-@extends('layout.app');
+@extends('layout.app')
 
 @section('content')
 
@@ -13,7 +13,7 @@
                 </div>
                 <div class="card-body">
                     <!-- Update Task Form -->
-                    <form action="{{url('update/'.$task->id)}}" method="POST">
+                    <form action="{{ url('/tasks/update/'.$task->id) }}" method="POST">
                       @csrf
                         <!-- Task Name -->
                         <div class="mb-3">
@@ -28,6 +28,16 @@
                             </button>
                         </div>
                     </form>
+                    <br>
+                    @if ($errors->any())
+                    <div class="alert alert-danger mt-3">
+                      <ul>
+                        @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                        @endforeach
+                      </ul> 
+                    </div>
+                      @endif
                 </div>
             </div>
               @else
@@ -36,7 +46,7 @@
                 </div>
                 <div class="card-body">
                     <!-- New Task Form -->
-                    <form action="create" method="POST">
+                    <form action="{{ url('/tasks/create') }}" method="POST">
                       @csrf
                         <!-- Task Name -->
                         <div class="mb-3">
@@ -51,6 +61,16 @@
                             </button>
                         </div>
                     </form>
+                    <br>
+                    @if ($errors->any())
+                    <div class="alert alert-danger mt-3">
+                      <ul>
+                        @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                        @endforeach
+                      </ul> 
+                    </div>
+                      @endif
                 </div>
             </div>
               @endif
@@ -76,18 +96,15 @@
                             <tr>
                                 <td>{{ $task -> name }}</td>
                                 <td>
-                                    <form action="/delete/{{$task -> id }}" method="POST" class="d-inline">
+                                    <form action="{{ url('/tasks/delete/'.$task->id) }}" method="POST" class="d-inline">
                                       @csrf
                                         <button type="submit" class="btn btn-danger">
                                             <i class="fa fa-trash me-2"></i>Delete
                                         </button>
                                     </form>
-                                    <form action="/edit/{{$task -> id }}" method="POST" class="d-inline">
-                                      @csrf
-                                        <button type="submit" class="btn btn-warning">
-                                            <i class="fa fa-edit me-2"></i>Edit
-                                        </button>
-                                    </form>
+                                    <a href="{{ url('/tasks/edit/'.$task->id) }}" class="btn btn-warning">
+                                        <i class="fa fa-edit me-2"></i>Edit </a>
+
                                 </td>
                             </tr>
                             @endforeach

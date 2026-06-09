@@ -1,4 +1,4 @@
-@extends('layout.app');
+@extends('layout.app')
 
 @section('users')   
   <div class="container mt-4">
@@ -10,7 +10,7 @@
                 </div>
                 <div class="card-body">
                     <!-- Update User Form -->
-                    <form action="{{url('update/'.$user->id)}}" method="POST">
+                    <form action="{{ url('/users/update/'.$user->id) }}" method="POST">
                       @csrf
                         <!-- User Name -->
                         <div class="mb-3">
@@ -37,6 +37,16 @@
                             </button>
                         </div>
                     </form>
+                    <br>
+                    @if ($errors->any())
+                    <div class="alert alert-danger mt-3">
+                      <ul>
+                        @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                        @endforeach
+                      </ul> 
+                    </div>
+                      @endif
                 </div>
             </div>
               @else
@@ -45,7 +55,7 @@
                 </div>
                 <div class="card-body">
                     <!-- New User Form -->
-                    <form action="create" method="POST">
+                    <form action="{{ url('/users/create') }}" method="POST">
                       @csrf
                         <!-- User Name -->
                         <div class="mb-3">
@@ -60,7 +70,7 @@
                         <!-- User Password -->    
                         <div class="mb-3">
                             <label for="user-password" class="form-label">User Password</label>
-                            <input type="password" name="password" id="password" class="form-control" value="">
+                            <input type="password" name="password" class="form-control">
                         </div>
                         <!-- Add User Button -->
                         <div>
@@ -69,6 +79,16 @@
                             </button>
                         </div>
                     </form>
+                    <br>
+                    @if ($errors->any())
+                    <div class="alert alert-danger mt-3">
+                      <ul>
+                        @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                        @endforeach
+                      </ul> 
+                    </div>
+                      @endif
                 </div>
             </div>
               @endif
@@ -88,28 +108,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                          @foreach ($users as $user)
+                          @foreach ($users as $u)
                             
                           
                             
                           
                             <tr>
-                                <td>{{ $user -> name }}</td>
-                                <td>{{ $user -> email }}</td> 
-                                <td>{{ $user -> password }}</td>
+                                <td>{{ $u -> name }}</td>
+                                <td>{{ $u -> email }}</td> 
+                                <td>{{ $u -> password }}</td>
                                 <td>
-                                    <form action="/delete/{{$user -> id }}" method="POST" class="d-inline">
+                                    <form action="{{ url('/users/delete/'.$u->id) }}" method="POST" class="d-inline">
                                       @csrf
                                         <button type="submit" class="btn btn-danger">
                                             <i class="fa fa-trash me-2"></i>Delete
                                         </button>
                                     </form>
-                                    <form action="/edit/{{$user -> id }}" method="POST" class="d-inline">
+
+                                    <a href="{{ url('/users/edit/'.$u->id) }}" class="btn btn-warning">
                                       @csrf
-                                        <button type="submit" class="btn btn-warning">
-                                            <i class="fa fa-edit me-2"></i>Edit
-                                        </button>
-                                    </form>
+                                        <i class="fa fa-edit me-2"></i>Edit </a>
                                 </td>
                             </tr>
                             @endforeach

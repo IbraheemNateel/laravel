@@ -34,26 +34,26 @@ route::post('/hema', function () {
 route::get('/tasks', [TaskController::class, 'index']);
 
 
-route::post('create', [TaskController::class, 'create']);
+route::post('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
 
 
-Route::post('delete/{id}', [TaskController::class, 'destroy']);
+Route::post('/tasks/delete/{id}', [TaskController::class, 'destroy']);
 
-Route::post('edit/{id}', [TaskController::class, 'edit']);
+Route::get('/tasks/edit/{id}', [TaskController::class, 'edit']);
 
   
-Route::post('update/{id}', [TaskController::class, 'update']);
+Route::post('/tasks/update/{id}', [TaskController::class, 'update']);
 
-Route::get('app', function () {
+Route::get('/app', function () {
     return view('layout/app');
 });
 
 
-route::get('users', [UsersController::class, 'index']);
+route::get('/users', [UsersController::class, 'index']);
 
-route::post('create', [UsersController::class, 'create']);
-route::post('delete/{id}', [UsersController::class, 'destroy']);
-Route::post('edit/{id}', [UsersController::class, 'edit']);
+route::post('/users/create', [UsersController::class, 'create']);
+route::post('/users/delete/{id}', [UsersController::class, 'destroy']);
+Route::get('/users/edit/{id}', [UsersController::class, 'edit']);
 
   
-Route::post('update/{id}', [UsersController::class, 'update']);
+Route::post('/users/update/{id}', [UsersController::class, 'update']);
